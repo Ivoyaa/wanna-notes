@@ -3,7 +3,7 @@ import sbt._
 trait Versions {
   val distage       = "1.1.0-M14"
   val http4s        = "0.23.18"
-  val catsEffect    = "2.5.3"
+  val zio    = "1.0.14"
   val catsCore      = "2.9.0"
   val kindProjector = "0.13.2"
 }
@@ -19,9 +19,10 @@ object Dependencies extends Versions {
     "io.7mind.izumi" %% "fundamentals-bio" % distage,
   )
 
-  val `cats-effect` = Seq(
+  val `runtime-kit` = Seq(
     "org.typelevel" %% "cats-core" % catsCore,
-    "org.typelevel" %% "cats-effect" % catsEffect,
+    "dev.zio" %% "zio" % zio,
+    "dev.zio" %% "zio-interop-cats" % "3.2.9.1"
   )
 
   val `http4s-kit` = Seq(
