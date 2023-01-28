@@ -9,5 +9,5 @@ lazy val `wanna-notes-backend` = (project in file("wanna-notes-backend")).settin
     )
   ),
   name                := "wanna-notes",
-  libraryDependencies := `distage-kit`,
+  libraryDependencies := `cats-effect` ++ `distage-kit` ++ `http4s-kit`,
 )
