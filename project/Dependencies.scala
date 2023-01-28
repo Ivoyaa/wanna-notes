@@ -1,10 +1,11 @@
 import sbt._
 
 trait Versions {
-  val distage    = "1.1.0-M14"
-  val http4s     = "0.23.18"
-  val catsEffect = "3.4.5"
-  val catsCore   = "2.9.0"
+  val distage       = "1.1.0-M14"
+  val http4s        = "0.23.18"
+  val catsEffect    = "2.5.3"
+  val catsCore      = "2.9.0"
+  val kindProjector = "0.13.2"
 }
 
 object Dependencies extends Versions {
@@ -15,6 +16,7 @@ object Dependencies extends Versions {
     "io.7mind.izumi" %% "distage-framework-docker" % distage,
     "io.7mind.izumi" %% "distage-testkit-scalatest" % distage,
     "io.7mind.izumi" %% "logstage-adapter-slf4j" % distage,
+    "io.7mind.izumi" %% "fundamentals-bio" % distage,
   )
 
   val `cats-effect` = Seq(
@@ -26,4 +28,6 @@ object Dependencies extends Versions {
     "org.http4s" %% "http4s-dsl" % http4s,
     "org.http4s" %% "http4s-ember-server" % http4s,
   )
+
+  val `kind-projector` = "org.typelevel" % "kind-projector" % kindProjector cross CrossVersion.full
 }

@@ -5,39 +5,35 @@ import cats.syntax.all._
 import org.http4s.ember.server._
 import org.http4s.implicits._
 import org.http4s.server.Router
+import org.http4s.server.Server
 import com.comcast.ip4s._
 import scala.concurrent.duration._
-
 import scala.concurrent.ExecutionContext
+import izumi.distage.model.definition.Lifecycle
 
-object HttpServer {
-  val helloWorldService = HttpRoutes.of[IO] {
-    case GET -> Root / "hello" / name =>
-      Ok(s"Hello, $name.")
-  }
+import api.HttpApi
 
-  case class Tweet(id: Int, message: String)
+final case class HttpServer(server: Server)
 
-  implicit def tweetEncoder: EntityEncoder[IO, Tweet]       = ???
-  implicit def tweetsEncoder: EntityEncoder[IO, Seq[Tweet]] = ???
+// object HttpServer {
 
-  def getTweet(tweetId: Int): IO[Tweet]  = ???
-  def getPopularTweets(): IO[Seq[Tweet]] = ???
+//   // val httpApp = Router("/" -> helloWorldService).orNotFound
 
-  val tweetService = HttpRoutes.of[IO] {
-    case GET -> Root / "tweets" / "popular" =>
-      getPopularTweets().flatMap(Ok(_))
-    case GET -> Root / "tweets" / IntVar(tweetId) =>
-      getTweet(tweetId).flatMap(Ok(_))
-  }
+//   final class Impl[F[+_, +_]](
+//     httpApi: HttpApi[F]
+//   )(implicit
+//     async: Async[F[Throwable, _]]
+//   ) extends Lifecycle.Of[F[Throwable, _], HttpServer](
+//       Lifecycle.fromCats {
+//         val combinedApis = httpApi.http
 
-  val services = tweetService <+> helloWorldService
-  val httpApp  = Router("/" -> helloWorldService, "/api" -> services).orNotFound
-  val server = EmberServerBuilder
-    .default[IO]
-    .withHost(ipv4"0.0.0.0")
-    .withPort(port"8080")
-    .withHttpApp(httpApp)
-    .build
-
-}
+//         EmberServerBuilder
+//           .default[F[Throwable, _]]
+//           .withHost(ipv4"0.0.0.0")
+//           .withPort(port"8080")
+//           .withHttpApp(combinedApis.orNotFound)
+//           .build
+//           .map(HttpServer(_))
+//       }
+//     )
+// }
